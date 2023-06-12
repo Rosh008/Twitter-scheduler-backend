@@ -11,6 +11,10 @@ const apiLimiter =  rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minute
     max: 100, // limit each IP to 100 requests per windowMs
 });
+
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+app.get('/', (req, res) => res.send('Server up and running'));
+
 app.use("/api/", apiLimiter);
 
 app.use("/api/v1/tweet", tweet);

@@ -14,7 +14,7 @@
   ],
   "crons": [
     {
-      "path": "src/execute-tweets",
+      "path": "/src/execute-tweets",
       "schedule": "*/7 * * * *"
     }
   ]

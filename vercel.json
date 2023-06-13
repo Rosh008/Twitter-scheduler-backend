@@ -11,11 +11,5 @@
       "src": "/(.*)",
       "dest": "src/server.js"
     }
-  ],
-  "crons": [
-    {
-      "path": "/src/execute-tweets",
-      "schedule": "*/7 * * * *"
-    }
   ]
 }

@@ -20,10 +20,10 @@ app.use("/api/", apiLimiter);
 
 app.use("/api/v1/tweet", tweet);
 
-// // script executed every 7 minutes.
-cron.schedule('*/7 * * * *', () => {
-    console.log("job scheduled cron")
-    executeScheduledTweets()
-})
-// setInterval(executeScheduledTweets, 420000);
+// // // script executed every 7 minutes.
+// cron.schedule('*/7 * * * *', () => {
+//     console.log("job scheduled cron")
+//     executeScheduledTweets()
+// })
+// // setInterval(executeScheduledTweets, 420000);
 export default app ;

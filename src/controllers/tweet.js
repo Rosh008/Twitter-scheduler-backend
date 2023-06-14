@@ -41,7 +41,7 @@ const sendTweet = asyncHandler(async (req, res) => {
         return response;
 })
 
-const executeScheduledTweets =  async () => { 
+const executeScheduledTweets = asyncHandler(async (req,res) => { 
     try {
         console.log('execution started');
         // Get current time
@@ -78,15 +78,19 @@ const executeScheduledTweets =  async () => {
               await db.collection('tweets').doc(doc.id).update({
                 status: 'posted'
               });
+              res.status(200)
+              res.send("success")
             }
+           
           } catch (error) {
             throw new Error('error posting tweet', error);
         }
         });
     } catch (error) {
         console.error('Error retrieving scheduled tweets:', error);
+        throw new Error('Error retrieving scheduled tweets:', error);
     }
-}
+})
 
 export {sendTweet, executeScheduledTweets}
 

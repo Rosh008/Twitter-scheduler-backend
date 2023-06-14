@@ -42,56 +42,52 @@ const sendTweet = asyncHandler(async (req, res) => {
 })
 
 const executeScheduledTweets = asyncHandler(async (req,res) => { 
-    // try {
-    //     console.log('execution started');
-    //     // Get current time
-    //     const currentTime = new Date();
+    try {
+        console.log('execution started');
+        // Get current time
+        const currentTime = new Date();
     
-    //     // Retrieve scheduled tweets from Firestore where the scheduled time is before or equal to the current time
-    //     const querySnapshot = await db.collection('tweets').where('time', '<=', currentTime).where('status', '==', 'pending').get();
+        // Retrieve scheduled tweets from Firestore where the scheduled time is before or equal to the current time
+        const querySnapshot = await db.collection('tweets').where('time', '<=', currentTime).where('status', '==', 'pending').get();
         
-    //     // Iterate over the retrieved tweets
-    //     querySnapshot.forEach(async (doc) => {
-    //       const tweet = doc.data();
+        // Iterate over the retrieved tweets
+        querySnapshot.forEach(async (doc) => {
+          const tweet = doc.data();
         
-    //       const userData = await db.collection('users').doc(tweet.uid).get()
+          const userData = await db.collection('users').doc(tweet.uid).get()
 
-    //       if(!userData.exists){
-    //         console.error(`Can't fetch user data`);
-    //       }
+          if(!userData.exists){
+            console.error(`Can't fetch user data`);
+          }
 
-    //       const data = userData.data()
-    //       const request = {
-    //         body:{
-    //             tok: data.oauthToken,
-    //             toksec: data.tokenSec,
-    //             data: tweet.tweet
-    //         }
-    //       }
-    //       try {
-    //         // Post the tweet
-    //         const response = await sendTweet(request)
+          const data = userData.data()
+          const request = {
+            body:{
+                tok: data.oauthToken,
+                toksec: data.tokenSec,
+                data: tweet.tweet
+            }
+          }
+          try {
+            // Post the tweet
+            const response = await sendTweet(request)
     
-    //         // Check if the tweet was successfully posted
-    //         if (response && response.body) {
-    //           // Update the tweet's status field in Firestore to reflect that it has been posted
-    //           await db.collection('tweets').doc(doc.id).update({
-    //             status: 'posted'
-    //           });
-    //           res.status(200)
-    //           res.send("success")
-    //         }
-           
-    //       } catch (error) {
-    //         throw new Error('error posting tweet', error);
-    //     }
-    //     });
-    // } catch (error) {
-    //     console.error('Error retrieving scheduled tweets:', error);
-    //     throw new Error('Error retrieving scheduled tweets:', error);
-    // }
-    res.send("success")
-
+            // Check if the tweet was successfully posted
+            if (response && response.body) {
+              // Update the tweet's status field in Firestore to reflect that it has been posted
+              await db.collection('tweets').doc(doc.id).update({
+                status: 'posted'
+              });
+            }
+          } catch (error) {
+            throw new Error('error posting tweet', error);
+        }
+        });
+        res.status(200).json({success: true})
+    } catch (error) {
+        console.error('Error retrieving scheduled tweets:', error);
+        throw new Error('Error retrieving scheduled tweets:', error);
+    }
 })
 
 export {sendTweet, executeScheduledTweets}

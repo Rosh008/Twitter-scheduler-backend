@@ -68,10 +68,11 @@ const executeScheduledTweets = asyncHandler(async (req,res) => {
                 data: tweet.tweet
             }
           }
+          console.log(request);
           try {
             // Post the tweet
             const response = await sendTweet(request)
-    
+            console.log(response);
             // Check if the tweet was successfully posted
             if (response && response.body) {
               // Update the tweet's status field in Firestore to reflect that it has been posted

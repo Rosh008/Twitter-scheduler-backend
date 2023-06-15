@@ -53,12 +53,13 @@ const executeScheduledTweets = asyncHandler(async (req,res) => {
         // Iterate over the retrieved tweets
         querySnapshot.forEach(async (doc) => {
           const tweet = doc.data();
-          console.log(tweet);
           const userData = await db.collection('users').doc(tweet.uid).get()
 
           if(!userData.exists){
             console.error(`Can't fetch user data`);
           }
+
+          console.log(userData);
 
           const data = userData.data()
           const request = {
@@ -68,7 +69,6 @@ const executeScheduledTweets = asyncHandler(async (req,res) => {
                 data: tweet.tweet
             }
           }
-          console.log(request);
           try {
             // Post the tweet
             const response = await sendTweet(request)

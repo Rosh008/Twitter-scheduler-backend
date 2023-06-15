@@ -10,7 +10,7 @@ const sendTweetURL = `https://api.twitter.com/2/tweets`;
 
 
 
-const sendTweet = asyncHandler(async (req, res) => {
+const sendTweet = async (req) => {
 
     const {tok, toksec, data} = req.body;
     const token = {
@@ -39,7 +39,7 @@ const sendTweet = asyncHandler(async (req, res) => {
 
     if(response.body)
         return response;
-})
+}
 
 const executeScheduledTweets = asyncHandler(async (req,res) => { 
     try {
@@ -78,6 +78,7 @@ const executeScheduledTweets = asyncHandler(async (req,res) => {
               await db.collection('tweets').doc(doc.id).update({
                 status: 'posted'
               });
+              console.log("posted tweet")
             }
           } catch (error) {
             throw new Error('error posting tweet', error);

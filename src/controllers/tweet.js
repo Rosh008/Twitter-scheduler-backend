@@ -59,8 +59,6 @@ const executeScheduledTweets = asyncHandler(async (req,res) => {
             console.error(`Can't fetch user data`);
           }
 
-          console.log(userData);
-
           const data = userData.data()
           const request = {
             body:{

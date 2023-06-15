@@ -53,7 +53,7 @@ const executeScheduledTweets = asyncHandler(async (req,res) => {
         // Iterate over the retrieved tweets
         querySnapshot.forEach(async (doc) => {
           const tweet = doc.data();
-        
+          console.log(tweet);
           const userData = await db.collection('users').doc(tweet.uid).get()
 
           if(!userData.exists){
